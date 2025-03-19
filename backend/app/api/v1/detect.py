@@ -18,11 +18,18 @@ from app.database.db import get_db
 logger = setup_logger(__name__)
 detect_router = APIRouter()
 
-@detect_router.post("/", response_model=DetectionResponse)
+@detect_router.post("/")
 async def detect_people(file: UploadFile = File(...), db: Session = Depends(get_db)):
     # Validate file type
     if not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=400, detail="File must be an image")
+        raise HTTPException(
+                status_code=400,
+                detail={
+                    "status": "error",
+                    "message": "File must be an image",
+                    "data": None
+                }
+            )
     
     # Create unique filename
     file_id = str(uuid.uuid4())
@@ -39,10 +46,24 @@ async def detect_people(file: UploadFile = File(...), db: Session = Depends(get_
     try:
         detection_response = detect_person(upload_path)
         if not isinstance(detection_response, dict) or "data" not in detection_response or "detections" not in detection_response["data"]:
-            raise HTTPException(status_code=500, detail="Invalid detection result format")
+            raise HTTPException(
+                status_code=500,
+                detail={
+                    "status": "error",
+                    "message": "Invalid detection result format",
+                    "data": None
+                }
+            )
         detect_results = detection_response["data"]["detections"]
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Detection failed: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "status": "error",
+                "message": "Detection failed: " + str(e),
+                "data": None
+            }
+        )
     
     # Process detections and save cropped images
     try:
@@ -57,27 +78,33 @@ async def detect_people(file: UploadFile = File(...), db: Session = Depends(get_
                     detection["x_min"], detection["y_min"], detection["x_max"], detection["y_max"]
                 ])
             except KeyError as e:
-                raise HTTPException(status_code=500, detail=f"Invalid detection result format: {str(e)}")
+                raise HTTPException(
+                    status_code=500,
+                    detail={
+                        "status": "error",
+                        "message": "Invalid detection result format: " + str(e),
+                        "data": None
+                    }
+                )
             
             # Draw bounding box on the image
             label = f"Person {idx+1}"
             cv2.rectangle(img, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
             cv2.putText(img, label, (x_min, y_min - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-            # cv2.rectangle(img, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
-            
-            # Crop the detected region
-            cropped_img = img[y_min:y_max, x_min:x_max]
-            cropped_path = f"results/{file_id}_crop_{idx}.{extension}"
-            
-            # Save the cropped image
-            cv2.imwrite(cropped_path, cropped_img)
 
         # Save the final image with bounding boxes
         cv2.imwrite(result_path, img)
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error processing images: {str(e)}")
-    
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "status": "error",
+                "message": "Error processing image: " + str(e),
+                "data": None
+            }
+        )
+            
     # Create database record
     db_record = DetectionRecord(
         timestamp=datetime.datetime.now(),
@@ -91,12 +118,17 @@ async def detect_people(file: UploadFile = File(...), db: Session = Depends(get_
     
     # Return response
     return {
-        "id": db_record.id,
-        "timestamp": db_record.timestamp,
-        "people_count": len(detect_results),
-        "result_image_url": f"/images/{file_id}.{extension}",
-        "original_filename": original_filename
+        "status": "success",
+        "message": "Detection completed successfully",
+        "data": {
+            "id": db_record.id,
+            "timestamp": db_record.timestamp,
+            "people_count": len(detect_results),
+            "result_image_url": f"/images/{file_id}.{extension}",
+            "original_filename": original_filename
+        }
     }
+
 
 @detect_router.get("/images/{filename}")
 async def get_image(filename: str):

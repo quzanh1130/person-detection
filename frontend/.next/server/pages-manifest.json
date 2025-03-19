@@ -1,10 +1,7 @@
 {
-  "/history": "pages/history.html",
-  "/": "pages/index.html",
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/api/detect": "pages/api/detect.js",
-  "/api/images/[filename]": "pages/api/images/[filename].js",
   "/_document": "pages/_document.js",
-  "/404": "pages/404.html"
+  "/": "pages/index.js",
+  "/history": "pages/history.js"
 }

@@ -15,30 +15,36 @@ export default function Home() {
     setLoading(true);
     setError(null);
     setResult(null);
-
+  
     try {
       const formData = new FormData();
       formData.append("file", file);
-
+  
       console.log("Uploading to API:", apiUrl);
       const response = await fetch(apiUrl, {
         method: "POST",
         body: formData,
       });
-
+  
       if (!response.ok) {
         throw new Error(`Server Error: ${response.status} - ${await response.text()}`);
       }
+  
+      const data = await response.json(); // Fix: Use response.json() directly
 
-      const data = await response.json();
-
-      // Ensure valid image path
-      if (data?.image_path) {
-        const filename = data.image_path.split("/").pop();
-        data.image_path = `/api/images/${filename}`;
+      console.log("Upload response:", data);
+  
+      if (data?.status === "success" && data.data) {
+        setResult({
+          id: data.data.id,
+          timestamp: data.data.timestamp,
+          people_count: data.data.people_count,
+          result_image_url: data.data.result_image_url,
+          original_filename: data.data.original_filename,
+        });
+      } else {
+        throw new Error("Invalid response format");
       }
-
-      setResult(data);
     } catch (err) {
       console.error("Upload failed:", err);
       setError(err.message || "An unexpected error occurred.");

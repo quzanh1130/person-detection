@@ -11,12 +11,12 @@ tasks:
     cmds:
       - docker compose -f docker-compose.dev.yml up --build
 
-  run_dev:
+  run_prod:
     desc: Run the person detection system
     cmds:
       - docker compose -f docker-compose.prod.yml up
 
-  build_dev:
+  build_prod:
     desc: Build the person detection system
     cmds:
       - docker compose -f docker-compose.prod.yml up --build

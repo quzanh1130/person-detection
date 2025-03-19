@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import HistoryTable from '../components/HistoryTable';
@@ -41,13 +41,13 @@ export default function History() {
 
       if (!historyRes.ok || !countRes.ok) throw new Error('Failed to fetch data from server.');
 
-      const historyData = await historyRes.json();
-      const countData = await countRes.json();
+      const historyResponse = await historyRes.json();
+      const countResponse = await countRes.json();
 
-      setHistory(historyData);
-      setFilteredHistory(historyData); // Hiển thị ban đầu
-      setTotalRecords(countData.count);
-      setTotalPages(Math.ceil(countData.count / pageSize));
+      setHistory(historyResponse.data);
+      setFilteredHistory(historyResponse.data);
+      setTotalRecords(countResponse.data.count);
+      setTotalPages(Math.ceil(countResponse.data.count / pageSize));
     } catch (err) {
       setError(err.message || 'Failed to load history. Please try again.');
     } finally {
@@ -59,10 +59,9 @@ export default function History() {
     fetchHistory();
   }, [page, pageSize, filters]);
 
-  // Hàm xử lý tìm kiếm
   const searchHistory = (query) => {
     if (!query) {
-      setFilteredHistory(history); // Nếu không có từ khóa, hiển thị danh sách gốc
+      setFilteredHistory(history);
       return;
     }
 
@@ -74,11 +73,10 @@ export default function History() {
     setFilteredHistory(filtered);
   };
 
-  // Xử lý tìm kiếm khi người dùng nhập
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearch(value);
-    searchHistory(value); // Lọc trực tiếp
+    searchHistory(value);
   };
 
   return (
@@ -94,11 +92,10 @@ export default function History() {
         </Link>
       </header>
 
-      {/* Filters Section */}
       <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 mb-8">
         <h2 className="text-xl font-semibold mb-4 text-gray-700">Filters</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
+          {[ 
             { name: 'minPeople', type: 'number', placeholder: 'Min People' },
             { name: 'maxPeople', type: 'number', placeholder: 'Max People' },
             { name: 'dateFrom', type: 'date', placeholder: 'From' },
@@ -119,7 +116,6 @@ export default function History() {
         </div>
       </div>
 
-      {/* Search Input */}
       <div className="mb-4">
         <input
           type="text"
@@ -131,17 +127,15 @@ export default function History() {
         />
       </div>
 
-      {/* Error Message */}
       {error && (
         <div className="mb-8 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-md shadow-sm">
           <p>{error}</p>
         </div>
       )}
 
-      {/* Table Section */}
       <div className="table-container">
         <HistoryTable
-          history={filteredHistory} // Dùng danh sách đã lọc
+          history={filteredHistory}
           loading={loading}
           page={page}
           totalPages={totalPages}
