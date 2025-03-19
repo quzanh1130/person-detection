@@ -5,6 +5,24 @@ A comprehensive **web application** for detecting and counting people in images 
 ![alt text](resource/image_1.png)
 
 ## Table of content
+- [Person Detection System](#person-detection-system)
+- [Table of content](#table-of-content)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [Setup Instructions](#setup-instructions)
+    - [Prerequisites](#prerequisites)
+    - [Environment Configuration](#environment-configuration)
+    - [Running the Application](#running-the-application)
+        - [Using Task](#using-task)
+        - [Using Docker Compose directly](#using-docker-compose-directly)
+    - [Building the Application](#building-the-application)
+        - [Using Task](#using-task-1)
+        - [Using Docker Compose directly](#using-docker-compose-directly-1)
+    - [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Technology Stack](#technology-stack)
+- [Cleaning Up](#cleaning-up)
 
 ## Features
 - Image Upload: Easily upload images for people detection
