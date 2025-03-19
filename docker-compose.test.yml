@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  test:
+    image: ultralytics/ultralytics:latest
+    command: nvidia-smi
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

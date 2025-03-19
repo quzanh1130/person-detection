@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9fafb;
+  color: #333;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Improved button styles */
+button {
+  padding: 10px 16px; /* Increased padding for better click area */
+  font-size: 1rem; /* Slightly larger font size */
+  font-weight: 600; /* Bolder text */
+  border: 2px solid #d1d5db; /* Thicker border */
+  border-radius: 6px; /* Slightly more rounded corners */
+  background-color: #f9fafb; /* Light gray background */
+  color: #374151; /* Dark gray text */
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: #f3f4f6; /* Slightly darker gray for disabled */
+  color: #9ca3af; /* Light gray text for disabled */
+  border-color: #e5e7eb; /* Light gray border for disabled */
+}
+
+button:hover:not(:disabled) {
+  background-color: #e5e7eb; /* Darker gray on hover */
+  color: #111827; /* Darker text on hover */
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: bold;
+}
+
+input, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* ImageUpload component styles */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form .border-dashed {
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+form img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Table styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb; /* Light gray border */
+}
+
+th {
+  background-color: #f3f4f6; /* Slightly darker gray for header */
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.875rem; /* Small font size */
+  color: #374151; /* Dark gray text */
+}
+
+td {
+  font-size: 0.875rem; /* Small font size */
+  color: #4b5563; /* Medium gray text */
+}
+
+tr:hover {
+  background-color: #f9fafb; /* Light gray background on hover */
+}
+
+/* Improved image styles */
+img {
+  border: 2px solid #d1d5db; /* Slightly thicker light gray border */
+  border-radius: 12px; /* More rounded corners */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+img:hover {
+  transform: scale(1.1); /* More pronounced zoom effect on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+/* Pagination styles */
+nav button {
+  padding: 8px 12px;
+  font-size: 0.875rem; /* Small font size */
+  font-weight: 500;
+  border: 1px solid #d1d5db; /* Light gray border */
+  border-radius: 4px;
+  background-color: #ffffff; /* White background */
+  color: #374151; /* Dark gray text */
+  transition: background-color 0.2s, color 0.2s;
+}
+
+nav button:hover:not(:disabled) {
+  background-color: #f3f4f6; /* Slightly darker gray on hover */
+  color: #111827; /* Darker text on hover */
+}
+
+nav button:disabled {
+  background-color: #f9fafb; /* Light gray background for disabled */
+  color: #9ca3af; /* Light gray text for disabled */
+  cursor: not-allowed;
+}
+
+/* Highlight text styles */
+.highlight {
+  background-color: #fff9c4; /* Light yellow background */
+  font-weight: bold;
+}
+
+.section {
+  margin-bottom: 20px; /* Tăng khoảng cách giữa các phần */
+  padding: 15px;
+}
+
+.filters-container {
+  padding: 20px;
+  margin-bottom: 25px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-container {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-container {
+  margin-top: 20px;
+  padding: 15px;
+  text-align: center;
+}

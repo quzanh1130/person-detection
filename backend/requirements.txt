@@ -1,0 +1,7 @@
+uvicorn
+fastapi
+SQLAlchemy
+psycopg2-binary
+opencv-python
+requests
+python-multipart

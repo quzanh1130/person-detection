@@ -1,0 +1,30 @@
+version: '3'
+
+tasks:
+  run_dev:
+    desc: Run the person detection system
+    cmds:
+      - docker compose -f docker-compose.dev.yml up
+
+  build_dev:
+    desc: Build the person detection system
+    cmds:
+      - docker compose -f docker-compose.dev.yml up --build
+
+  run_dev:
+    desc: Run the person detection system
+    cmds:
+      - docker compose -f docker-compose.prod.yml up
+
+  build_dev:
+    desc: Build the person detection system
+    cmds:
+      - docker compose -f docker-compose.prod.yml up --build
+      
+
+  clean:
+    desc: Clean up temporary files, artifacts, and stop all running containers
+    cmds:
+      - docker compose -f docker-compose.dev.yml down
+      - docker compose -f docker-compose.prod.yml down
+      - docker system prune -f

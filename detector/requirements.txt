@@ -1,0 +1,6 @@
+uvicorn
+fastapi
+ultralytics
+python-multipart
+onnxruntime
+onnxruntime-gpu
